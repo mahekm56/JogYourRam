@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<center><title>Jog Your RAM!</title>
+<style>
+    h1{
+       color: green;
+       font-size: 60px;
+    }
+    p{
+        color:orange;
+        font-size: 30px;
+        font-weight:bold;
+    }
+    #rightSide {
+        left: 958px;
+        border-left: 5px solid black;
+    }
+    img {
+        position: absolute;
+    }
+    div {
+        position: absolute;
+        width: 500px;
+        height: 500px;
+    }
+    #score{
+        right:-400px;
+        top:15px;
+        color:maroon;
+        font-size:100px;
+    }
+    #scorelabel{
+        right:-100px;
+        top:15px;
+        color: maroon;
+        font-size:100px;
+    }
+</style>
+</head>
+<body onload="generateFaces()">
+<h1>Jog your RAM!</h1>
+<p>Click on the extra RAM chip that is on the left side.</p></body></center>
+<div id="scorelabel">
+Score:
+</div>
+<div id="score">
+0
+</div>
+<br><div id="leftSide">
+</div>
+<div id="rightSide">
+</div>
+<script>
+var numberOfFaces = 3;
+var score=0;
+var theLeftSide = document.getElementById("leftSide");
+var theRightSide = document.getElementById("rightSide");
+var theBody = document.getElementsByTagName("body")[0];
+function randomNumber() {
+return Math.random() * 400;
+}
+function nextLevel(event) {
+event.stopPropagation();
+numberOfFaces = numberOfFaces + 3;
+score= score+1;
+generateFaces();
+var displayEl = document.getElementById("score");
+displayEl.innerHTML = score;
+}
+function gameover() {
+alert("Game Over! Press the refresh button to play again!")
+theBody.onclick = null;
+theLeftSide.lastChild.onclick = null;
+}
+function deleteAllChildren() {
+while (theLeftSide.firstChild) {
+theLeftSide.removeChild(theLeftSide.firstChild);
+}
+while (theRightSide.firstChild) {
+theRightSide.removeChild(theRightSide.firstChild);
+}
+}
+function generateFaces() {
+deleteAllChildren();
+var count = numberOfFaces;
+while (count > 0) {
+var theImg = document.createElement("img");
+theImg.src = "http://www.clipartsfree.net/vector/large/pgb-chip-generic_Vector_Clipart.png";
+theImg.style.height = '100px';
+theImg.style.width = '100px';
+theImg.style.top = randomNumber() + "px";
+theImg.style.left = randomNumber() + "px";
+theLeftSide.appendChild(theImg);
+count--;
+}
+theLeftSide.lastChild.onclick = nextLevel;
+var leftSideImages = theLeftSide.cloneNode(true);
+leftSideImages.removeChild(leftSideImages.lastChild);
+theRightSide.appendChild(leftSideImages);
+theBody.onclick= gameover;
+}
+</script>
+</body>
+</html>
